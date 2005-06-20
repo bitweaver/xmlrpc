@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.1 2005/06/19 05:12:47 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.2 2005/06/20 21:50:04 lsces Exp $
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -119,7 +119,7 @@ function editPost($params) {
 	$content = $passp->scalarval();
 	$passp = $params->getParam(5);
 	$publish = $passp->scalarval();
-	$blogUser = new Tikiuser($username);
+	$blogUser = new BitUser($username);
 	
 	// Now check if the user is valid and if the user can post a submission
 	if (!$gBitUser->validate_user($username, $password, '', '')) {
