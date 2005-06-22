@@ -1,9 +1,9 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.1 2005/06/19 05:12:47 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.1.1.1.2.1 2005/06/22 20:11:15 spiderr Exp $
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-# $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.1 2005/06/19 05:12:47 bitweaver Exp $
+# $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.1.1.1.2.1 2005/06/22 20:11:15 spiderr Exp $
 
 require_once( '../bit_setup_inc.php' );
 include_once( KERNEL_PKG_PATH.'comm_lib.php' );
@@ -36,7 +36,7 @@ function sendPage($params) {
 	$pp = $params->getParam(6);
 	$description = $pp->scalarval();
 	//
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	// Verify if the user has bit_p_sendme_pages
@@ -96,7 +96,7 @@ function sendArticle($params) {
 	$pp = $params->getParam(21);
 	$rating = $pp->scalarval();
 	//
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	// Verify if the user has bit_p_sendme_pages

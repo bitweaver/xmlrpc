@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.2 2005/06/20 21:50:04 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.2.2.1 2005/06/22 20:11:15 spiderr Exp $
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
@@ -50,7 +50,7 @@ function getUserInfo($params) {
 	$username = $usernamep->scalarval();
 	$passwordp = $params->getParam(2);
 	$password = $passwordp->scalarval();
-	if ($gBitUser->validate_user($username, $password, '', '')) {
+	if ($gBitUser->validate($username, $password, '', '')) {
 		$myStruct = new xmlrpcval(array(
 			"nickname" => new xmlrpcval($username),
 			"firstname" => new xmlrpcval("none"),
@@ -80,7 +80,7 @@ function newPost($params) {
 	$passp = $params->getParam(5);
 	$publish = $passp->scalarval();
 	// Now check if the user is valid and if the user can post a submission
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	// Get individual permissions for this weblog if they exist
@@ -120,9 +120,9 @@ function editPost($params) {
 	$passp = $params->getParam(5);
 	$publish = $passp->scalarval();
 	$blogUser = new BitUser($username);
-	
+
 	// Now check if the user is valid and if the user can post a submission
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	if (!check_individual($username, $blogid, 'bit_p_blog_post')) {
@@ -160,7 +160,7 @@ function deletePost($params) {
 	$passp = $params->getParam(4);
 	$publish = $passp->scalarval();
 	// Now check if the user is valid and if the user can post a submission
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	// Now get the post information
@@ -191,7 +191,7 @@ function getPost($params) {
 	$passwordp = $params->getParam(3);
 	$password = $passwordp->scalarval();
 	// Now check if the user is valid and if the user can post a submission
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	if (!check_individual($username, $blogid, 'bit_p_blog_post')) {
@@ -234,7 +234,7 @@ function getRecentPosts($params) {
 	$passp = $params->getParam(4);
 	$number = $passp->scalarval();
 	// Now check if the user is valid and if the user can post a submission
-	if (!$gBitUser->validate_user($username, $password, '', '')) {
+	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	if (!check_individual($username, $blogid, 'bit_p_blog_post')) {
