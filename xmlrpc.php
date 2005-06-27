@@ -1,5 +1,7 @@
 <?php
-# $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.1.1.1.2.1 2005/06/22 20:11:15 spiderr Exp $
+# @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.1.1.1.2.2 2005/06/27 00:39:25 lsces Exp $
+
+// @package xmlrpc
 require_once( '../bit_setup_inc.php' );
 require_once( XMLRPC_PKG_PATH.'xmlrpc.inc' );
 require_once( XMLRPC_PKG_PATH.'xmlrpcs.inc' );
