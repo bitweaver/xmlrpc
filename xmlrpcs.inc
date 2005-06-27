@@ -1,7 +1,13 @@
 <?php
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/Attic/xmlrpcs.inc,v 1.1.1.1.2.1 2005/06/27 17:48:07 lsces Exp $
+ * @author Edd Dumbill (C) 1999-2001
+ * @package xmlrpc
+ */
+ 
 // by Edd Dumbill (C) 1999-2001
 // <edd@usefulinc.com>
-// $Id: xmlrpcs.inc,v 1.1 2005/06/19 05:12:47 bitweaver Exp $
+// $Id: xmlrpcs.inc,v 1.1.1.1.2.1 2005/06/27 17:48:07 lsces Exp $
 
 // Copyright (c) 1999,2000,2001 Edd Dumbill.
 // All rights reserved.
@@ -38,10 +44,20 @@
 // XML RPC Server class
 // requires: xmlrpc.inc
 
+/**
+ * xmlrpc functions
+ *
+ * @package wiki
+ * @subpackage functions
+ */
 // listMethods: either a string, or nothing
 $_xmlrpcs_listMethods_sig=array(array($xmlrpcArray, $xmlrpcString), 
 																array($xmlrpcArray));
 $_xmlrpcs_listMethods_doc='This method lists all the methods that the XML-RPC server knows how to dispatch';
+
+/**
+ * xmlrpc_listMethods
+ */
 function _xmlrpcs_listMethods($server, $m) {
 	global $xmlrpcerr, $xmlrpcstr, $_xmlrpcs_dmap;
 	$v=new xmlrpcval();
@@ -144,6 +160,11 @@ function xmlrpc_debugmsg($m) {
 	$_xmlrpc_debuginfo=$_xmlrpc_debuginfo . $m . "\n";
 }
 
+/**
+ * xmlrpc_listMethods
+ * @package xmlrpc
+ * @subpackage xmlrpc_server
+ */
 class xmlrpc_server {
   var $dmap=array();
 

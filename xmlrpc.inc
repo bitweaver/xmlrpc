@@ -1,7 +1,13 @@
 <?php					// -*-c++-*-
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/Attic/xmlrpc.inc,v 1.1.1.1.2.1 2005/06/27 17:48:07 lsces Exp $
+ * @author Edd Dumbill (C) 1999-2001
+ * @package xmlrpc
+ */
+ 
 // by Edd Dumbill (C) 1999-2001
 // <edd@usefulinc.com>
-// $Id: xmlrpc.inc,v 1.1 2005/06/19 05:12:47 bitweaver Exp $
+// $Id: xmlrpc.inc,v 1.1.1.1.2.1 2005/06/27 17:48:07 lsces Exp $
 
 
 // Copyright (c) 1999,2000,2001 Edd Dumbill.
@@ -36,6 +42,12 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/**
+ * xmlrpc functions
+ *
+ * @package wiki
+ * @subpackage functions
+ */
 if (!function_exists('xml_parser_create')) {
 // Win 32 fix. From: "Leo West" <lwest@imaginet.fr>
 	if($WINDIR) {
@@ -116,6 +128,9 @@ $xmlrpc_backslash=chr(92).chr(92);
 
 $_xh=array();
 
+/**
+ * xmlrpc_entity_decode
+ */
 function xmlrpc_entity_decode($string) {
   $top=split("&", $string);
   $op="";
@@ -352,6 +367,12 @@ function xmlrpc_dh($parser, $data)
   }
 }
 
+/**
+ * Class xmlrpc_client
+ *   
+ * @package wiki
+ * @subpackage xmlrpc_client
+ */
 class xmlrpc_client {
   var $path;
   var $server;
@@ -506,6 +527,12 @@ class xmlrpc_client {
 
 } // end class xmlrpc_client
 
+/**
+ * Class xmlrpcresp
+ *   
+ * @package wiki
+ * @subpackage xmlrpcresp
+ */
 class xmlrpcresp {
   var $xv;
   var $fn;
@@ -559,6 +586,12 @@ class xmlrpcresp {
   }
 }
 
+/**
+ * Class xmlrpcmsg
+ *   
+ * @package wiki
+ * @subpackage xmlrpcmsg
+ */
 class xmlrpcmsg {
   var $payload;
   var $methodname;
@@ -730,6 +763,12 @@ class xmlrpcmsg {
 
 }
 
+/**
+ * Class xmlrpcval
+ *   
+ * @package wiki
+ * @subpackage xmlrpcval
+ */
 class xmlrpcval {
   var $me=array();
   var $mytype=0;
