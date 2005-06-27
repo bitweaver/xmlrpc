@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.2.2.2 2005/06/27 17:48:07 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.2.2.3 2005/06/27 18:06:26 lsces Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: xmlrpc_services.php,v 1.2.2.2 2005/06/27 17:48:07 lsces Exp $
+ * $Id: xmlrpc_services.php,v 1.2.2.3 2005/06/27 18:06:26 lsces Exp $
  * @package xmlrpc
  * @subpackage function_services
  */
@@ -38,6 +38,9 @@ $map = array(
 	"blogger.getUsersBlogs" => array("function" => "getUserBlogs")
 );
 $s = new xmlrpc_server($map);
+/**
+ * @ignore
+ */
 function check_individual($user, $blogid, $perm_name) {
 	global $gBitUser;
 	// If the user is admin he can do everything
@@ -54,7 +57,10 @@ function check_individual($user, $blogid, $perm_name) {
 		return false;
 	}
 }
-/* Validates the user and returns user information */
+/**
+ * Validates the user and returns user information
+ * @ignore
+ */
 function getUserInfo($params) {
 	global $gBitSystem, $gBitUser;
 	$appkeyp = $params->getParam(0);
@@ -77,7 +83,10 @@ function getUserInfo($params) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 }
-/* Posts a new submission to the CMS */
+/**
+ * Posts a new submission to the CMS
+ * @ignore
+ */
 function newPost($params) {
 	global $gBitSystem, $gBitUser, $gBlog;
 	$appkeyp = $params->getParam(0);
@@ -117,7 +126,11 @@ function newPost($params) {
 	$id = $gBlog->blog_post($blogid, $content, $username);
 	return new xmlrpcresp(new xmlrpcval("$id"));
 }
-// :TODO: editPost
+
+/**
+ * @todo editPost
+ * @ignore
+ */
 function editPost($params) {
 	global $gBitSystem, $gBitUser, $gBlog;
 	$appkeyp = $params->getParam(0);
@@ -159,7 +172,10 @@ function editPost($params) {
 	$id = $gBlog->update_post($postid, $content, $blogUser->mUserId);
 	return new xmlrpcresp(new xmlrpcval(1, "boolean"));
 }
-// :TODO: deletePost
+/**
+ * @todo deletePost
+ * @ignore
+ */
 function deletePost($params) {
 	global $gBitSystem, $gBitUser, $gBlog;
 	$appkeyp = $params->getParam(0);
@@ -192,7 +208,10 @@ function deletePost($params) {
 }
 // :TODO: getTemplate
 // :TODO: setTemplate
-// :TODO: getPost
+/**
+ * @todo getPost
+ * @ignore
+ */
 function getPost($params) {
 	global $gBitSystem, $gBitUser, $gBlog;
 	$appkeyp = $params->getParam(0);
@@ -233,7 +252,10 @@ function getPost($params) {
 	// User ok and can submit then submit an article
 	return new xmlrpcresp($myStruct);
 }
-// :TODO: getRecentPosts
+/**
+ * @todo getRecentPosts
+ * @ignore
+ */
 function getRecentPosts($params) {
 	global $gBitSystem, $gBitUser, $gBlog;
 	$appkeyp = $params->getParam(0);
@@ -278,8 +300,10 @@ function getRecentPosts($params) {
 	$myVal = new xmlrpcval($arrayval, "array");
 	return new xmlrpcresp($myVal);
 }
-// :TODO: tiki.tikiPost
-/* Get the topics where the user can post a new */
+/**
+ * Get the topics where the user can post a new
+ * @ignore
+ */
 function getUserBlogs($params) {
 	global $gBitSystem, $gBitUser, $gBlog;
 	$appkeyp = $params->getParam(0);
