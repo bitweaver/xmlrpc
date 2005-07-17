@@ -6,13 +6,13 @@ $tables = array(
 global $gBitInstaller;
 
 foreach( array_keys( $tables ) AS $tableName ) {
-	$gBitInstaller->registerSchemaTable( XMLRPC_PKG_DIR, $tableName, $tables[$tableName], TRUE );
+	$gBitInstaller->registerSchemaTable( XMLRPC_PKG_NAME, $tableName, $tables[$tableName], TRUE );
 }
 
 $indices = array (
 );
 
-$gBitInstaller->registerSchemaIndexes( XMLRPC_PKG_DIR, $indices );
+$gBitInstaller->registerSchemaIndexes( XMLRPC_PKG_NAME, $indices );
 
 $gBitInstaller->registerPackageInfo( XMLRPC_PKG_NAME, array(
 	'description' => "This is the XML RPC communications library.",
