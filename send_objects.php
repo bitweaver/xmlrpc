@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.1.1.1.2.1 2005/06/27 17:48:07 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.1.1.1.2.2 2005/07/26 15:50:49 drewslater Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: send_objects.php,v 1.1.1.1.2.1 2005/06/27 17:48:07 lsces Exp $
+ * $Id: send_objects.php,v 1.1.1.1.2.2 2005/07/26 15:50:49 drewslater Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -22,12 +22,12 @@ require_once( XMLRPC_PKG_PATH.'xmlrpcs.inc' );
 require_once( ARTICLES_PKG_PATH.'art_lib.php' );
 require_once( WIKI_PKG_PATH.'BitPage.php' );
 if ($feature_comm != 'y') {
-	$smarty->assign('msg', tra("This feature is disabled").": feature_comm");
+	$gBitSmarty->assign('msg', tra("This feature is disabled").": feature_comm");
 	$gBitSystem->display( 'error.tpl' );
 	die;
 }
 if (!$gBitUser->hasPermission( 'bit_p_send_pages' ) && !$gBitUser->hasPermission( 'bit_p_send_articles' )) {
-	$smarty->assign('msg', tra("You dont have permission to use this feature"));
+	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
 	$gBitSystem->display( 'error.tpl' );
 	die;
 }
@@ -53,16 +53,16 @@ if (!isset($_REQUEST["sendarticles"])) {
 } else {
 	$sendarticles = unserialize(urldecode($_REQUEST['sendarticles']));
 }
-$smarty->assign('username', $_REQUEST["username"]);
-$smarty->assign('site', $_REQUEST["site"]);
-$smarty->assign('path', $_REQUEST["path"]);
-$smarty->assign('password', $_REQUEST["password"]);
+$gBitSmarty->assign('username', $_REQUEST["username"]);
+$gBitSmarty->assign('site', $_REQUEST["site"]);
+$gBitSmarty->assign('path', $_REQUEST["path"]);
+$gBitSmarty->assign('password', $_REQUEST["password"]);
 if (isset($_REQUEST["find"])) {
 	$find = $_REQUEST["find"];
 } else {
 	$find = '';
 }
-$smarty->assign('find', $find);
+$gBitSmarty->assign('find', $find);
 if (isset($_REQUEST["addpage"])) {
 	if (!in_array($_REQUEST["page_name"], $sendpages)) {
 		$sendpages[] = $_REQUEST["page_name"];
@@ -158,17 +158,17 @@ if (isset($_REQUEST["send"])) {
 		}
 	}
 }
-$smarty->assign('msg', $msg);
-$smarty->assign('sendpages', $sendpages);
-$smarty->assign('sendarticles', $sendarticles);
+$gBitSmarty->assign('msg', $msg);
+$gBitSmarty->assign('sendpages', $sendpages);
+$gBitSmarty->assign('sendarticles', $sendarticles);
 $form_sendpages = urlencode(serialize($sendpages));
 $form_sendarticles = urlencode(serialize($sendarticles));
-$smarty->assign('form_sendarticles', $form_sendarticles);
-$smarty->assign('form_sendpages', $form_sendpages);
+$gBitSmarty->assign('form_sendarticles', $form_sendarticles);
+$gBitSmarty->assign('form_sendpages', $form_sendpages);
 $pages = $wikilib->list_pages(0, -1, 'page_name_asc', $find);
 $articles = $artlib->list_articles(0, -1, 'publish_date_desc', $find, date("U"), $user);
-$smarty->assign_by_ref('pages', $pages["data"]);
-$smarty->assign_by_ref('articles', $articles["data"]);
+$gBitSmarty->assign_by_ref('pages', $pages["data"]);
+$gBitSmarty->assign_by_ref('articles', $articles["data"]);
 
 // Display the template
 $gBitSystem->display( 'bitpackage:xmlrpc/send_objects.tpl');
