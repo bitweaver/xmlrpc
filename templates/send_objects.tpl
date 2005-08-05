@@ -1,4 +1,4 @@
-<a class="pagetitle" href="{$gBitLoc.XMLRPC_PKG_URL}send_objects.php">{tr}Send objects{/tr}</a>
+<a class="pagetitle" href="{$smarty.const.XMLRPC_PKG_URL}send_objects.php">{tr}Send objects{/tr}</a>
   
 <div class="floaticon">{bithelp}</div>
 
@@ -12,7 +12,7 @@
 <div class="admin box">
 <div class="boxtitle">{tr}Send objects to this site{/tr}</div>
 <div class="boxcontent">
-<form method="post" action="{$gBitLoc.XMLRPC_PKG_URL}send_objects.php">
+<form method="post" action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php">
 <input type="hidden" name="sendpages" value="{$form_sendpages|escape}" />
 <input type="hidden" name="sendarticles" value="{$form_sendarticles|escape}" />
 
@@ -31,7 +31,7 @@
 <div class="admin box">
 <div class="boxtitle">{tr}Filter{/tr}</div>
 <div class="boxcontent">
-<form action="{$gBitLoc.XMLRPC_PKG_URL}send_objects.php" method="post">
+<form action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php" method="post">
 <input type="hidden" name="sendarticles" value="{$form_sendarticles|escape}" />
 <input type="hidden" name="sendpages" value="{$form_sendpages|escape}" />
 {tr}filter{/tr}:<input type="text" name="find" /><input type="submit" name="filter" value="{tr}filter{/tr}" /><br />
@@ -51,7 +51,7 @@
 {/section}
 </div>
 
-<form action="{$gBitLoc.XMLRPC_PKG_URL}send_objects.php" method="post">
+<form action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php" method="post">
 <input type="hidden" name="sendpages" value="{$form_sendpages|escape}" />
 <input type="hidden" name="sendarticles" value="{$form_sendarticles|escape}" />
 <input type="hidden" name="site" value="{$site|escape}" />
@@ -84,7 +84,7 @@
 {/section}
 </div>
 
-<form action="{$gBitLoc.XMLRPC_PKG_URL}send_objects.php" method="post">
+<form action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php" method="post">
 <input type="hidden" name="sendarticles" value="{$form_sendarticles|escape}" />
 <input type="hidden" name="sendpages" value="{$form_sendpages|escape}" />
 <input type="hidden" name="site" value="{$site|escape}" />
