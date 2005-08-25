@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.1.1.1.2.3 2005/06/27 17:48:07 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.1.1.1.2.4 2005/08/25 20:44:18 lsces Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -94,7 +94,7 @@ function newPost($params) {
     }
   }
   // User ok and can submit then submit the post
-  $now=date("U");
+// not used? $now=date("U"); 
   $id = $gBlog->blog_post($blogid,$content,$username, $title);
   return new xmlrpcresp(new xmlrpcval("$id"));
 }
@@ -130,7 +130,7 @@ function editPost($params) {
 				return new xmlrpcresp(0, 101, "Permission denied to edit that post since the post does not belong to the user");
 			}
 		}
-		$now=date("U");
+//		$now=date("U");
 		$id = $gBlog->update_post($postid,$content,$blogUser->mUserId,$title);
 	} else {
 		return new xmlrpcresp(0, 101, "Post not found");
@@ -157,7 +157,7 @@ function deletePost($params) {
 				return new xmlrpcresp(0, 101, "Permission denied to edit that post");
 			}
 		}
-		$now=date("U");
+//		$now=date("U");
 		$blogPost->expunge();
 	} else {
 		return new xmlrpcresp(0, 101, "Post not found");
