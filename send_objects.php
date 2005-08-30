@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.3 2005/08/01 18:42:06 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.4 2005/08/30 22:41:56 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: send_objects.php,v 1.3 2005/08/01 18:42:06 squareing Exp $
+ * $Id: send_objects.php,v 1.4 2005/08/30 22:41:56 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -166,7 +166,7 @@ $form_sendarticles = urlencode(serialize($sendarticles));
 $gBitSmarty->assign('form_sendarticles', $form_sendarticles);
 $gBitSmarty->assign('form_sendpages', $form_sendpages);
 $pages = $wikilib->list_pages(0, -1, 'page_name_asc', $find);
-$articles = $artlib->list_articles(0, -1, 'publish_date_desc', $find, date("U"), $user);
+$articles = $artlib->list_articles(0, -1, 'publish_date_desc', $find, $gBitSystem->getUTCTime(), $user);
 $gBitSmarty->assign_by_ref('pages', $pages["data"]);
 $gBitSmarty->assign_by_ref('articles', $articles["data"]);
 
