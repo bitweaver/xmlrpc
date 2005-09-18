@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.1.1.1.2.3 2005/08/25 20:40:47 lsces Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.1.1.1.2.4 2005/09/18 04:23:08 wolff_borg Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: send_objects.php,v 1.1.1.1.2.3 2005/08/25 20:40:47 lsces Exp $
+ * $Id: send_objects.php,v 1.1.1.1.2.4 2005/09/18 04:23:08 wolff_borg Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -17,13 +17,15 @@
  * required setup
  */
 require_once( '../bit_setup_inc.php' );
-require_once( XMLRPC_PKG_PATH.'xmlrpc.inc' );
-require_once( XMLRPC_PKG_PATH.'xmlrpcs.inc' );
-require_once( ARTICLES_PKG_PATH.'art_lib.php' );
-require_once( WIKI_PKG_PATH.'BitPage.php' );
-if ($feature_comm != 'y') {
-	$gBitSmarty->assign('msg', tra("This feature is disabled").": feature_comm");
-	$gBitSystem->display( 'error.tpl' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpc.inc' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpcs.inc' );
+if ($gBitSystem->isPackageActive( 'articles' )) {
+	require_once( ARTICLES_PKG_PATH.'art_lib.php' );
+}
+if ($gBitSystem->isPackageActive( 'wiki' )) {
+	require_once( WIKI_PKG_PATH.'BitPage.php' );
+}
+if (!$gBitSystem->isFeatureActive( 'feature_comm' )) {
 	die;
 }
 if (!$gBitUser->hasPermission( 'bit_p_send_pages' ) && !$gBitUser->hasPermission( 'bit_p_send_articles' )) {
@@ -32,13 +34,19 @@ if (!$gBitUser->hasPermission( 'bit_p_send_pages' ) && !$gBitUser->hasPermission
 	die;
 }
 if (!isset($_REQUEST["username"])) {
-	$_REQUEST["username"] = $user;
+	$_REQUEST["username"] = $gBitSystem->getPreference("xmlrpc_username", $gBitUser->mUsername);
+} else {
+	$gBitSystem->storePreference("xmlrpc_username", $_REQUEST["username"]);
 }
 if (!isset($_REQUEST["path"])) {
-	$_REQUEST["path"] = '/xmlrpc/commxmlrpc.php';
+	$_REQUEST["path"] =  $gBitSystem->getPreference("xmlrpc_path", XMLRPC_PKG_URL.'commxmlrpc.php');
+} else {
+	$gBitSystem->storePreference("xmlrpc_path", $_REQUEST["path"]);
 }
 if (!isset($_REQUEST["site"])) {
-	$_REQUEST["site"] = '';
+	$_REQUEST["site"] =  $gBitSystem->getPreference("xmlrpc_site", '');
+} else {
+	$gBitSystem->storePreference("xmlrpc_site", $_REQUEST["site"]);
 }
 if (!isset($_REQUEST["password"])) {
 	$_REQUEST["password"] = '';
@@ -103,7 +111,7 @@ if (isset($_REQUEST["send"])) {
 			} else {
 				if (!$result->faultCode()) {
 					// We have a response
-					$res = xmlrpc_decode($result->value());
+					$res = php_xmlrpc_decode($result->value());
 					if ($res) {
 						$msg .= tra('page'). ': ' . $page . tra(' successfully sent'). "<br/>";
 					}
@@ -146,7 +154,7 @@ if (isset($_REQUEST["send"])) {
 			} else {
 				if (!$result->faultCode()) {
 					// We have a response
-					$res = xmlrpc_decode($result->value());
+					$res = php_xmlrpc_decode($result->value());
 					if ($res) {
 						$msg .= tra('article'). ': ' . $article . tra(' successfully sent'). "<br/>";
 					}
@@ -165,10 +173,14 @@ $form_sendpages = urlencode(serialize($sendpages));
 $form_sendarticles = urlencode(serialize($sendarticles));
 $gBitSmarty->assign('form_sendarticles', $form_sendarticles);
 $gBitSmarty->assign('form_sendpages', $form_sendpages);
-$pages = $wikilib->list_pages(0, -1, 'page_name_asc', $find);
-$articles = $artlib->list_articles(0, -1, 'publish_date_desc', $find, $gBitSystem->getUTCTime(), $user);
-$gBitSmarty->assign_by_ref('pages', $pages["data"]);
-$gBitSmarty->assign_by_ref('articles', $articles["data"]);
+if ($gBitSystem->isPackageActive( 'wiki' )) {
+	$pages = $wikilib->list_pages(0, -1, 'page_name_asc', $find);
+	$gBitSmarty->assign_by_ref('pages', $pages["data"]);
+}
+if ($gBitSystem->isPackageActive( 'articles' )) {
+	$articles = $artlib->list_articles(0, -1, 'publish_date_desc', $find, $gBitSystem->getUTCTime(), $user);
+	$gBitSmarty->assign_by_ref('articles', $articles["data"]);
+}
 
 // Display the template
 $gBitSystem->display( 'bitpackage:xmlrpc/send_objects.tpl');
