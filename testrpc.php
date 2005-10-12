@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/testrpc.php,v 1.2 2005/06/28 07:46:29 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/testrpc.php,v 1.3 2005/10/12 15:14:13 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: testrpc.php,v 1.2 2005/06/28 07:46:29 spiderr Exp $
+ * $Id: testrpc.php,v 1.3 2005/10/12 15:14:13 spiderr Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -17,12 +17,12 @@
  * required setup
  */
 require_once( '../bit_setup_inc.php' );
-require_once( XMLRPC_PKG_PATH.'xmlrpc.inc' );
-require_once( XMLRPC_PKG_PATH.'xmlrpcs.inc' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpc.inc' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpcs.inc' );
 // EDIT FROM THIS LINE
 $server_port = 80;
 $server_uri = "localhost";
-$server_path = "/xmlrpc/xmlrpc.php";
+$server_path = XMLRPC_PKG_URL."xmlrpc.php";
 $username = 'admin';
 $password = 'admin';
 // DON'T EDIT BELOW THIS LINE
@@ -45,7 +45,7 @@ if (!$result) {
 	$errorMsg = 'Cannot send message to server maybe the server is down';
 } else {
 	if (!$result->faultCode()) {
-		$blogs = xmlrpc_decode($result->value());
+		$blogs = php_xmlrpc_decode($result->value());
 		print_r ($blogs);
 	} else {
 		$errorMsg = $result->faultstring();

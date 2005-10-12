@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.3 2005/08/30 22:41:56 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.4 2005/10/12 15:14:13 spiderr Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -9,11 +9,13 @@
  * required setup
  */
 require_once( '../bit_setup_inc.php' );
-require_once( XMLRPC_PKG_PATH.'xmlrpc.inc' );
-require_once( XMLRPC_PKG_PATH.'xmlrpcs.inc' );
-include_once( BLOGS_PKG_PATH.'BitBlog.php' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpc.inc' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpcs.inc' );
+if ($gBitSystem->isPackageActive( 'blogs' )) {
+	include_once( BLOGS_PKG_PATH.'BitBlog.php' );
+}
 
-if($gBitSystem->getPreference("feature_xmlrpc",'n') != 'y') {
+if(!$gBitSystem->isFeatureActive("feature_xmlrpc")) {
   die;
 }
 $map = array (

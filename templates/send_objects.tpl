@@ -40,7 +40,7 @@
 </div>
 <br />
 
-{if $gBitUser->hasPermission( 'bit_p_send_pages' )}
+{if $gBitUser->hasPermission( 'bit_p_send_pages' ) && $gBitSystem->isPackageActive( 'wiki')}
 <div class="admin box">
 <div class="boxtitle">{tr}Send Wiki Pages{/tr}</div>
 <div class="boxcontent">
@@ -73,7 +73,7 @@
 
 <br />
 
-{if $gBitUser->hasPermission( 'bit_p_send_articles' )}
+{if $gBitUser->hasPermission( 'bit_p_send_articles' ) && $gBitSystem->isPackageActive( 'articles')}
 <div class="admin box">
 <div class="boxtitle">{tr}Send Articles{/tr}</div>
 <div class="boxcontent">

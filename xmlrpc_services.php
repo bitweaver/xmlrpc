@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.4 2005/08/30 22:41:56 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.5 2005/10/12 15:14:13 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: xmlrpc_services.php,v 1.4 2005/08/30 22:41:56 squareing Exp $
+ * $Id: xmlrpc_services.php,v 1.5 2005/10/12 15:14:13 spiderr Exp $
  * @package xmlrpc
  * @subpackage function_services
  */
@@ -17,15 +17,16 @@
  * required setup
  */
 require_once( '../bit_setup_inc.php' );
-require_once( XMLRPC_PKG_PATH.'xmlrpc.inc' );
-require_once( XMLRPC_PKG_PATH.'xmlrpcs.inc' );
-include_once( BLOGS_PKG_PATH.'BitBlog.php' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpc.inc' );
+require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpcs.inc' );
+if ($gBitSystem->isPackageActive( 'blogs' )) {
+	include_once( BLOGS_PKG_PATH.'BitBlog.php' );
+}
 
-/* later
-if($gBitSystem->getPreference("feature_xmlrpc",'n') != 'y') {
+if(!$gBitSystem->isFeatureActive("feature_xmlrpc")) {
   die;
 }
-*/
+
 // Build map using webservices
 $map = array(
 	"blogger.newPost" => array("function" => "newPost"),
