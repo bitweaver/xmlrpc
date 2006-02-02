@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.3 2005/10/12 15:14:13 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.4 2006/02/02 08:20:47 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: commxmlrpc.php,v 1.3 2005/10/12 15:14:13 spiderr Exp $
+ * $Id: commxmlrpc.php,v 1.4 2006/02/02 08:20:47 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -17,7 +17,7 @@
  * required setup
  */
 require_once( '../bit_setup_inc.php' );
-include_once( KERNEL_PKG_PATH.'comm_lib.php' );
+include_once( XMLRPC_PKG_PATH.'comm_lib.php' );
 require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpc.inc' );
 require_once( UTIL_PKG_PATH.'xmlrpc/xmlrpcs.inc' );
 if (!$gBitSystem->isFeatureActive("feature_comm")) {
