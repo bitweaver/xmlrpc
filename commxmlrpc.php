@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.4 2006/02/02 08:20:47 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.5 2006/02/02 10:32:23 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: commxmlrpc.php,v 1.4 2006/02/02 08:20:47 squareing Exp $
+ * $Id: commxmlrpc.php,v 1.5 2006/02/02 10:32:23 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -54,7 +54,7 @@ function sendPage($params) {
 	if (!$gBitUser->user_has_permission($username, 'bit_p_sendme_pages')) {
 		return new xmlrpcresp(0, 101, "Permissions denied user $username cannot send pages to this site");
 	}
-	// Store the page in the tiki_received_pages_table
+	// Store the page in the wiki_received_pages_table
 	$data = base64_decode($data);
 	$commlib->receive_page($page_name, $data, $comment, $site, $username, $description);
 	return new xmlrpcresp(new xmlrpcval(1, "boolean"));
@@ -114,7 +114,7 @@ function sendArticle($params) {
 	if (!$gBitUser->user_has_permission($username, 'bit_p_sendme_articles')) {
 		return new xmlrpcresp(0, 101, "Permissions denied user $username cannot send articles to this site");
 	}
-	// Store the page in the tiki_received_pages_table
+	// Store the page in the wiki_received_pages_table
 	$title = base64_decode($title);
 	$author_name = base64_decode($author_name);
 	$image_data = base64_decode($image_data);

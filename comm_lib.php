@@ -3,7 +3,7 @@
  * Communications Library
  *
  * @package kernel
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/comm_lib.php,v 1.1 2006/02/02 08:20:47 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/comm_lib.php,v 1.2 2006/02/02 10:32:23 squareing Exp $
  */
 
 /**
@@ -13,7 +13,8 @@
  * @package kernel
  */
 class CommLib extends BitBase {
-	function CommLib() {					BitBase::BitBase();
+	function CommLib() {
+		BitBase::BitBase();
 	}
 
 	function accept_page($received_page_id) {
@@ -30,6 +31,41 @@ class CommLib extends BitBase {
 		return true;
 	}
 
+	function remove_received_page($received_page_id) {
+		$query = "delete from `".BIT_DB_PREFIX."wiki_received_pages` where `received_page_id`=?";
+		$result = $this->mDb->query($query,array((int)$received_page_id));
+	}
+
+	function rename_received_page($received_page_id, $name) {
+		$query = "update `".BIT_DB_PREFIX."wiki_received_pages` set `page_name`=? where `received_page_id`=?";
+		$result = $this->mDb->query($query,array($name,(int)$received_page_id));
+	}
+
+	function get_received_page($received_page_id) {
+		$query = "select * from `".BIT_DB_PREFIX."wiki_received_pages` where `received_page_id`=?";
+		$result = $this->mDb->query($query,array((int)$received_page_id));
+		if (!$result->numRows()) return false;
+		$res = $result->fetchRow();
+		return $res;
+	}
+
+	function update_received_page($received_page_id, $page_name, $data, $comment) {
+		$query = "update `".BIT_DB_PREFIX."wiki_received_pages` set `page_name`=?, `data`=?, `comment`=? where `received_page_id`=?";
+		$result = $this->mDb->query($query,array($page_name,$data,$comment,(int)$received_page_id));
+	}
+
+	function receive_page($page_name, $data, $comment, $site, $user, $description) {
+		global $gBitSystem;
+		$now = $gBitSystem->getUTCTime();
+		// Remove previous page sent from the same site-user (an update)
+		$query = "delete from `".BIT_DB_PREFIX."wiki_received_pages` where `page_name`=? and `receivedFromSite`=? and `received_from_user`=?";
+		$result = $this->mDb->query($query,array($page_name,$site,$user));
+		// Now insert the page
+		$query = "insert into `".BIT_DB_PREFIX."wiki_received_pages`(`page_name`,`data`,`comment`,`received_from_site`, `received_from_user`, `received_date`,`description`) values(?,?,?,?,?,?,?)";
+		$result = $this->mDb->query($query,array($page_name,$data,$comment,$site,$user,(int)$now,$description));
+	}
+
+/* ======================== NOT IN USE --- perhaps XMLRPC should have it's own table where it can store all the recieved data
 	function accept_article($received_article_id, $topic) {
 		$info = $this->get_received_article($received_article_id);
 
@@ -68,29 +104,6 @@ class CommLib extends BitBase {
 		return $retval;
 	}
 
-	function remove_received_page($received_page_id) {
-		$query = "delete from `".BIT_DB_PREFIX."wiki_received_pages` where `received_page_id`=?";
-		$result = $this->mDb->query($query,array((int)$received_page_id));
-	}
-
-	function remove_received_article($received_article_id) {
-		$query = "delete from `".BIT_DB_PREFIX."tiki_received_articles` where `received_article_id`=?";
-		$result = $this->mDb->query($query,array((int)$received_article_id));
-	}
-
-	function rename_received_page($received_page_id, $name) {
-		$query = "update `".BIT_DB_PREFIX."wiki_received_pages` set `page_name`=? where `received_page_id`=?";
-		$result = $this->mDb->query($query,array($name,(int)$received_page_id));
-	}
-
-	function get_received_page($received_page_id) {
-		$query = "select * from `".BIT_DB_PREFIX."wiki_received_pages` where `received_page_id`=?";
-		$result = $this->mDb->query($query,array((int)$received_page_id));
-		if (!$result->numRows()) return false;
-		$res = $result->fetchRow();
-		return $res;
-	}
-
 	function get_received_article($received_article_id) {
 		$query = "select * from `".BIT_DB_PREFIX."tiki_received_articles` where `received_article_id`=?";
 		$result = $this->mDb->query($query,array((int)$received_article_id));
@@ -108,9 +121,9 @@ class CommLib extends BitBase {
 			array($title,$author_name,$heading,$body,(int)$size,$hash,$use_image,(int)$image_x,(int)$image_y,(int)$publish_date,$expire_date,$type,(int)$rating,(int)$received_article_id));
 	}
 
-	function update_received_page($received_page_id, $page_name, $data, $comment) {
-		$query = "update `".BIT_DB_PREFIX."wiki_received_pages` set `page_name`=?, `data`=?, `comment`=? where `received_page_id`=?";
-		$result = $this->mDb->query($query,array($page_name,$data,$comment,(int)$received_page_id));
+	function remove_received_article($received_article_id) {
+		$query = "delete from `".BIT_DB_PREFIX."tiki_received_articles` where `received_article_id`=?";
+		$result = $this->mDb->query($query,array((int)$received_article_id));
 	}
 
 	function receive_article($site, $user, $title, $author_name, $size, $use_image, $image_name, $image_type, $image_size, $image_x,
@@ -121,23 +134,12 @@ class CommLib extends BitBase {
 		$result = $this->mDb->query($query,array($title,$site,$user));
 		$query = "insert into `".BIT_DB_PREFIX."tiki_received_articles`(`received_date`,`received_from_site`,`received_from_user`,`title`,`author_name`,`size`, ";
 		$query.= " `use_image`,`image_name`,`image_type`,`image_size`,`image_x`,`image_y`,`image_data`,`publish_date`,`expire_date`,`created`,`heading`,`body`,`hash`,`author`,`type`,`rating`) ";
-    $query.= " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		$query.= " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		$result = $this->mDb->query($query,array((int)$now,$site,$user,$title,$author_name,(int)$size,$use_image,$image_name,$image_type,$image_size,
 		                              $image_x,$image_y,$image_data,(int)$publish_date,(int)$expire_date,(int)$created,$heading,$body,$hash,$author,$type,(int)$rating));
 	}
+*/
 
-	function receive_page($page_name, $data, $comment, $site, $user, $description) {
-		global $gBitSystem;
-		$now = $gBitSystem->getUTCTime();
-		// Remove previous page sent from the same site-user (an update)
-		$query = "delete from `".BIT_DB_PREFIX."wiki_received_pages` where `page_name`=? and `receivedFromSite`=? and `received_from_user`=?";
-		$result = $this->mDb->query($query,array($page_name,$site,$user));
-		// Now insert the page
-		$query = "insert into `".BIT_DB_PREFIX."wiki_received_pages`(`page_name`,`data`,`comment`,`received_from_site`, `received_from_user`, `received_date`,`description`) values(?,?,?,?,?,?,?)";
-		$result = $this->mDb->query($query,array($page_name,$data,$comment,$site,$user,(int)$now,$description));
-	}
-
-// Functions for the communication center end ////
 }
 global $commlib;
 $commlib = new CommLib();
