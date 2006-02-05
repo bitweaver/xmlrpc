@@ -17,9 +17,6 @@ $gBitInstaller->registerSchemaIndexes( XMLRPC_PKG_NAME, $indices );
 $gBitInstaller->registerPackageInfo( XMLRPC_PKG_NAME, array(
 	'description' => "This is the XML RPC communications library.",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
-	'version' => '0.1',
-	'state' => 'experimental',
-	'dependencies' => '',
 ) );
 
 // ### Default Preferences
