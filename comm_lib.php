@@ -3,7 +3,7 @@
  * Communications Library
  *
  * @package kernel
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/comm_lib.php,v 1.2 2006/02/02 10:32:23 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/comm_lib.php,v 1.3 2006/02/06 00:12:36 squareing Exp $
  */
 
 /**
@@ -78,7 +78,7 @@ class CommLib extends BitBase {
 		return true;
 	}
 
-	function list_received_articles($offset, $maxRecords, $sort_mode = 'publish_date_desc', $find) {
+	function list_received_articles($offset, $max_records, $sort_mode = 'publish_date_desc', $find) {
 		$bindvars = array();
 		if ($find) {
 			$findesc = '%' . strtoupper( $find ) . '%';
@@ -90,7 +90,7 @@ class CommLib extends BitBase {
 
 		$query = "select * from `".BIT_DB_PREFIX."tiki_received_articles` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."tiki_received_articles` $mid";
-		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+		$result = $this->mDb->query($query,$bindvars,$max_records,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
 
