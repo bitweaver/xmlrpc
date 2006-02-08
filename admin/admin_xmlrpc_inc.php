@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_xmlrpc/admin/admin_xmlrpc_inc.php,v 1.2 2005/08/01 18:42:06 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_xmlrpc/admin/admin_xmlrpc_inc.php,v 1.3 2006/02/08 21:51:16 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -24,14 +24,12 @@ $gBitSmarty->assign( 'formFeaturesXmlrpc',$formFeaturesXmlrpc );
 $processForm = set_tab();
 
 if( $processForm ) {
-	
 	foreach( $formFeaturesXmlrpc as $item => $data ) {
-		simple_set_toggle( $item );
+		simple_set_toggle( $item, XMLRPC_PKG_NAME );
 	}
 }
 
 // TODO - not sure how this stuff works - wolff_borg
 //$gBitSystem->setHelpInfo('Features','Settings','Help with the features settings');
-
 
 ?>

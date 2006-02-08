@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.5 2005/10/12 15:14:13 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.6 2006/02/08 21:51:16 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: send_objects.php,v 1.5 2005/10/12 15:14:13 spiderr Exp $
+ * $Id: send_objects.php,v 1.6 2006/02/08 21:51:16 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -36,17 +36,17 @@ if (!$gBitUser->hasPermission( 'bit_p_send_pages' ) && !$gBitUser->hasPermission
 if (!isset($_REQUEST["username"])) {
 	$_REQUEST["username"] = $gBitSystem->getPreference("xmlrpc_username", $gBitUser->mUsername);
 } else {
-	$gBitSystem->storePreference("xmlrpc_username", $_REQUEST["username"]);
+	$gBitSystem->storePreference("xmlrpc_username", $_REQUEST["username"], XMLRPC_PKG_NAME);
 }
 if (!isset($_REQUEST["path"])) {
 	$_REQUEST["path"] =  $gBitSystem->getPreference("xmlrpc_path", XMLRPC_PKG_URL.'commxmlrpc.php');
 } else {
-	$gBitSystem->storePreference("xmlrpc_path", $_REQUEST["path"]);
+	$gBitSystem->storePreference("xmlrpc_path", $_REQUEST["path"], XMLRPC_PKG_NAME);
 }
 if (!isset($_REQUEST["site"])) {
 	$_REQUEST["site"] =  $gBitSystem->getPreference("xmlrpc_site", '');
 } else {
-	$gBitSystem->storePreference("xmlrpc_site", $_REQUEST["site"]);
+	$gBitSystem->storePreference("xmlrpc_site", $_REQUEST["site"], XMLRPC_PKG_NAME);
 }
 if (!isset($_REQUEST["password"])) {
 	$_REQUEST["password"] = '';
