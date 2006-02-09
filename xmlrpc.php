@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.4 2005/10/12 15:14:13 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.5 2006/02/09 14:52:47 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -15,90 +15,88 @@ if ($gBitSystem->isPackageActive( 'blogs' )) {
 	include_once( BLOGS_PKG_PATH.'BitBlog.php' );
 }
 
-if(!$gBitSystem->isFeatureActive("feature_xmlrpc")) {
-  die;
-}
+$gBitSystem->verifyPackage( 'xmlrpc' );
 $map = array (
-        "blogger.newPost" => array( "function" => "newPost"),
-        "blogger.getUserInfo" => array( "function" => "getUserInfo"),
-        "blogger.getPost" => array( "function" => "getPost"),
-        "blogger.editPost" => array( "function" => "editPost"),
-        "blogger.deletePost" => array( "function" => "deletePost"),
-        "blogger.getRecentPosts" => array( "function" => "getRecentPosts"),
-        "blogger.getUserInfo" => array( "function" => "getUserInfo"),
-        "blogger.getUsersBlogs" => array( "function" => "getUserBlogs")
+	"blogger.newPost" => array( "function" => "newPost"),
+	"blogger.getUserInfo" => array( "function" => "getUserInfo"),
+	"blogger.getPost" => array( "function" => "getPost"),
+	"blogger.editPost" => array( "function" => "editPost"),
+	"blogger.deletePost" => array( "function" => "deletePost"),
+	"blogger.getRecentPosts" => array( "function" => "getRecentPosts"),
+	"blogger.getUserInfo" => array( "function" => "getUserInfo"),
+	"blogger.getUsersBlogs" => array( "function" => "getUserBlogs")
 );
 $s=new xmlrpc_server( $map );
 function check_individual($user,$blogid,$perm_name) {
-  global $gBitUser;
-  // If the user is admin he can do everything
-  if($gBitUser->user_has_permission($user,'bit_p_blog_admin')) return true;
-  // If no individual permissions for the object then ok
-  if(!$gBitUser->object_has_one_permission($blogid,'blog')) return true;
-  // If the object has individual permissions then check
-  // Now get all the permissions that are set for this type of permissions 'image gallery'
-  if($gBitUser->object_has_permission($user,$blog_id,'blog',$perm_name)) {
-    return true;
-  } else {
-    return false;
-  }
+	global $gBitUser;
+	// If the user is admin he can do everything
+	if($gBitUser->user_has_permission($user,'bit_p_blog_admin')) return true;
+	// If no individual permissions for the object then ok
+	if(!$gBitUser->object_has_one_permission($blogid,'blog')) return true;
+	// If the object has individual permissions then check
+	// Now get all the permissions that are set for this type of permissions 'image gallery'
+	if($gBitUser->object_has_permission($user,$blog_id,'blog',$perm_name)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 /* Validates the user and returns user information */
 function getUserInfo($params) {
- global $gBitSystem,$gBitUser;
- $appkeyp=$params->getParam(0); $appkey=$appkeyp->scalarval();
- $usernamep=$params->getParam(1); $username=$usernamep->scalarval();
- $passwordp=$params->getParam(2); $password=$passwordp->scalarval();
- if($gBitUser->validate($username,$password,'','')) {
-   $myStruct=new xmlrpcval(array("nickname" => new xmlrpcval($username),
-                                 "firstname" => new xmlrpcval("none"),
-                                 "lastname" => new xmlrpcval("none"),
-                                 "email" => new xmlrpcval("none"),
-                                 "userid" => new xmlrpcval("$username"),
-                                 "url" => new xmlrpcval("none")
-                                 ),"struct");
-   return new xmlrpcresp($myStruct);
- } else {
-    return new xmlrpcresp(0, 101, "Invalid username or password");
- }
+	global $gBitSystem,$gBitUser;
+	$appkeyp=$params->getParam(0); $appkey=$appkeyp->scalarval();
+	$usernamep=$params->getParam(1); $username=$usernamep->scalarval();
+	$passwordp=$params->getParam(2); $password=$passwordp->scalarval();
+	if($gBitUser->validate($username,$password,'','')) {
+		$myStruct=new xmlrpcval(array("nickname" => new xmlrpcval($username),
+		"firstname" => new xmlrpcval("none"),
+		"lastname" => new xmlrpcval("none"),
+		"email" => new xmlrpcval("none"),
+		"userid" => new xmlrpcval("$username"),
+		"url" => new xmlrpcval("none")
+	),"struct");
+	return new xmlrpcresp($myStruct);
+} else {
+	return new xmlrpcresp(0, 101, "Invalid username or password");
+}
 }
 /* Posts a new submission to the CMS */
 function newPost($params) {
-  global $gBitSystem,$gBitUser,$gBlog;
-  $appkeyp=$params->getParam(0); $appkey=$appkeyp->scalarval();
-  $blogidp=$params->getParam(1); $blogid=$blogidp->scalarval();
-  $usernamep=$params->getParam(2); $username=$usernamep->scalarval();
-  $passwordp=$params->getParam(3); $password=$passwordp->scalarval();
-  $passp=$params->getParam(4); $content=$passp->scalarval();
-  $passp=$params->getParam(5); $publish=$passp->scalarval();
-  // Fix for w.bloggar
-  ereg("<title>(.*)</title>",$content, $title);
-  $title = $title[1];
-  $content = ereg_replace("<title>(.*)</title>","",$content);
-  // Now check if the user is valid and if the user can post a submission
-  if(!$gBitUser->validate($username,$password,'','')) {
-    return new xmlrpcresp(0, 101, "Invalid username or password");
-  }
-  // Get individual permissions for this weblog if they exist
-  if(!check_individual($username,$blogid,'bit_p_blog_post') ) {
-    return new xmlrpcresp(0, 101, "User is not allowed to post to this weblog due to individual restrictions for this weblog");
-  }
-  // If the blog is not public then check if the user is the owner
-  if(!$gBitUser->user_has_permission($username,'bit_p_blog_admin')) {
-    if(!$gBitUser->user_has_permission($username,'bit_p_blog_post')) {
-      return new xmlrpcresp(0, 101, "User is not allowed to post");
-    }
-    $blog_info = $gBitSystem->get_blog($blogid);
-    if($blog_info["public"]!='y') {
-      if($username != $blog_info["user"]) {
-        return new xmlrpcresp(0, 101, "User is not allowed to post");
-      }
-    }
-  }
-  // User ok and can submit then submit the post
-// not used? $now=date("U"); 
-  $id = $gBlog->blog_post($blogid,$content,$username, $title);
-  return new xmlrpcresp(new xmlrpcval("$id"));
+	global $gBitSystem,$gBitUser,$gBlog;
+	$appkeyp=$params->getParam(0); $appkey=$appkeyp->scalarval();
+	$blogidp=$params->getParam(1); $blogid=$blogidp->scalarval();
+	$usernamep=$params->getParam(2); $username=$usernamep->scalarval();
+	$passwordp=$params->getParam(3); $password=$passwordp->scalarval();
+	$passp=$params->getParam(4); $content=$passp->scalarval();
+	$passp=$params->getParam(5); $publish=$passp->scalarval();
+	// Fix for w.bloggar
+	ereg("<title>(.*)</title>",$content, $title);
+	$title = $title[1];
+	$content = ereg_replace("<title>(.*)</title>","",$content);
+	// Now check if the user is valid and if the user can post a submission
+	if(!$gBitUser->validate($username,$password,'','')) {
+		return new xmlrpcresp(0, 101, "Invalid username or password");
+	}
+	// Get individual permissions for this weblog if they exist
+	if(!check_individual($username,$blogid,'bit_p_blog_post') ) {
+		return new xmlrpcresp(0, 101, "User is not allowed to post to this weblog due to individual restrictions for this weblog");
+	}
+	// If the blog is not public then check if the user is the owner
+	if(!$gBitUser->user_has_permission($username,'bit_p_blog_admin')) {
+		if(!$gBitUser->user_has_permission($username,'bit_p_blog_post')) {
+			return new xmlrpcresp(0, 101, "User is not allowed to post");
+		}
+		$blog_info = $gBitSystem->get_blog($blogid);
+		if($blog_info["public"]!='y') {
+			if($username != $blog_info["user"]) {
+				return new xmlrpcresp(0, 101, "User is not allowed to post");
+			}
+		}
+	}
+	// User ok and can submit then submit the post
+	// not used? $now=date("U"); 
+	$id = $gBlog->blog_post($blogid,$content,$username, $title);
+	return new xmlrpcresp(new xmlrpcval("$id"));
 }
 // :TODO: editPost
 function editPost($params) {

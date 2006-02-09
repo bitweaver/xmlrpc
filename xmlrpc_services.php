@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.5 2005/10/12 15:14:13 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.6 2006/02/09 14:52:47 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: xmlrpc_services.php,v 1.5 2005/10/12 15:14:13 spiderr Exp $
+ * $Id: xmlrpc_services.php,v 1.6 2006/02/09 14:52:47 squareing Exp $
  * @package xmlrpc
  * @subpackage function_services
  */
@@ -23,9 +23,7 @@ if ($gBitSystem->isPackageActive( 'blogs' )) {
 	include_once( BLOGS_PKG_PATH.'BitBlog.php' );
 }
 
-if(!$gBitSystem->isFeatureActive("feature_xmlrpc")) {
-  die;
-}
+$gBitSystem->verifyPackage( 'xmlrpc' );
 
 // Build map using webservices
 $map = array(
