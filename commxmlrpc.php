@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.1.1.1.2.3 2005/09/18 04:23:08 wolff_borg Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.1.1.1.2.4 2006/02/26 10:46:05 wolff_borg Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: commxmlrpc.php,v 1.1.1.1.2.3 2005/09/18 04:23:08 wolff_borg Exp $
+ * $Id: commxmlrpc.php,v 1.1.1.1.2.4 2006/02/26 10:46:05 wolff_borg Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -51,8 +51,8 @@ function sendPage($params) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	// Verify if the user has bit_p_sendme_pages
-	if (!$gBitUser->user_has_permission($username, 'bit_p_sendme_pages')) {
-		return new xmlrpcresp(0, 101, "Permissions denied user $username cannot send pages to this site");
+	if (!$gBitUser->hasPermission('bit_p_sendme_pages')) {
+		return new xmlrpcresp(0, 101, "Permissions denied user ".$gBitUser->getDisplayName()." cannot send pages to this site");
 	}
 	// Store the page in the tiki_received_pages_table
 	$data = base64_decode($data);

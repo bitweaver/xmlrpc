@@ -46,9 +46,9 @@
 <div class="boxcontent">
 <div class="admin box">
 <b>{tr}Pages{/tr}</b>: 
-{section name=ix loop=$sendpages}
-	{$sendpages[ix]}
-{/section}
+{foreach item=page from=$sendpages}
+	{$page}<br/>
+{/foreach}
 </div>
 
 <form action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php" method="post">
@@ -59,9 +59,9 @@
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="username" value="{$username|escape}" />
 <input type="hidden" name="password" value="{$password|escape}" />
-<select name="page_name">
+<select name="content_id">
 {section name=ix loop=$pages}
-<option value="{$pages[ix].page_name|escape}">{$pages[ix].page_name}</option>
+<option value="{$pages[ix].content_id|escape}">{$pages[ix].title}</option>
 {/section}
 </select>
 <input type="submit" name="addpage" value="{tr}add page{/tr}" />

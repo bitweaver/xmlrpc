@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.1.1.1.2.4 2005/09/18 04:23:08 wolff_borg Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.1.1.1.2.5 2006/02/26 10:46:05 wolff_borg Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: send_objects.php,v 1.1.1.1.2.4 2005/09/18 04:23:08 wolff_borg Exp $
+ * $Id: send_objects.php,v 1.1.1.1.2.5 2006/02/26 10:46:05 wolff_borg Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -72,8 +72,10 @@ if (isset($_REQUEST["find"])) {
 }
 $gBitSmarty->assign('find', $find);
 if (isset($_REQUEST["addpage"])) {
-	if (!in_array($_REQUEST["page_name"], $sendpages)) {
-		$sendpages[] = $_REQUEST["page_name"];
+	if (!array_key_exists($_REQUEST["content_id"], $sendpages)) {
+		$page = new BitPage(NULL, $_REQUEST["content_id"]);
+		$page->load();
+		$sendpages[$page->mContentId] = $page->mInfo["title"];
 	}
 }
 if (isset($_REQUEST["clearpages"])) {
@@ -91,16 +93,18 @@ $msg = '';
 if (isset($_REQUEST["send"])) {
 	
 	// Create XMLRPC object
-	$client = new xmlrpc_client($_REQUEST["path"], $_REQUEST["site"], 80);
+	$client = new xmlrpc_client($_REQUEST["path"], $_REQUEST["site"]);
 	$client->setDebug(0);
-	foreach ($sendpages as $page) {
-		$page_info = $wikilib->get_page_info($page);
+	foreach (array_keys($sendpages) as $x) {
+		$page = new BitPage(NULL, $x);
+		$page->load();
+		$page_info = $page->mInfo;
 		if ($page_info) {
 			$searchMsg = new xmlrpcmsg('sendPage', array(
 				new xmlrpcval($_SERVER["SERVER_NAME"], "string"),
 				new xmlrpcval($_REQUEST["username"], "string"),
 				new xmlrpcval($_REQUEST["password"], "string"),
-				new xmlrpcval($page, "string"),
+				new xmlrpcval($page_info["title"], "string"),
 				new xmlrpcval(base64_encode($page_info["data"]), "string"),
 				new xmlrpcval($page_info["comment"], "string"),
 				new xmlrpcval($page_info["description"], "string")
@@ -174,7 +178,7 @@ $form_sendarticles = urlencode(serialize($sendarticles));
 $gBitSmarty->assign('form_sendarticles', $form_sendarticles);
 $gBitSmarty->assign('form_sendpages', $form_sendpages);
 if ($gBitSystem->isPackageActive( 'wiki' )) {
-	$pages = $wikilib->list_pages(0, -1, 'page_name_asc', $find);
+	$pages = $wikilib->getList(0, -1, 'title_asc', $find);
 	$gBitSmarty->assign_by_ref('pages', $pages["data"]);
 }
 if ($gBitSystem->isPackageActive( 'articles' )) {
