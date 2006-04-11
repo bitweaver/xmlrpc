@@ -28,9 +28,9 @@ $gBitInstaller->registerPreferences( XMLRPC_PKG_NAME, array(
 
 // ### Default UserPermissions
 $gBitInstaller->registerUserPermissions( XMLRPC_PKG_NAME, array(
-	array('bit_p_send_pages', 'Can send pages to other sites', 'registered', XMLRPC_PKG_NAME),
-	array('bit_p_sendme_pages', 'Can send pages to this site', 'registered', XMLRPC_PKG_NAME),
-	array('bit_p_admin_received_pages', 'Can admin received pages', 'editors', XMLRPC_PKG_NAME),
+	array('p_xmlrpc_send_content', 'Can send pages to other sites', 'registered', XMLRPC_PKG_NAME),
+	array('p_xmlrpc_sendme_content', 'Can send pages to this site', 'registered', XMLRPC_PKG_NAME),
+	array('p_xmlrpc_admin_content', 'Can admin received pages', 'editors', XMLRPC_PKG_NAME),
 ) );
 
 ?>

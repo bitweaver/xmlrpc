@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.5 2006/02/02 10:32:23 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/commxmlrpc.php,v 1.6 2006/04/11 13:12:59 squareing Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: commxmlrpc.php,v 1.5 2006/02/02 10:32:23 squareing Exp $
+ * $Id: commxmlrpc.php,v 1.6 2006/04/11 13:12:59 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -50,8 +50,8 @@ function sendPage($params) {
 	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
-	// Verify if the user has bit_p_sendme_pages
-	if (!$gBitUser->user_has_permission($username, 'bit_p_sendme_pages')) {
+	// Verify if the user has p_xmlrpc_sendme_content
+	if (!$gBitUser->user_has_permission($username, 'p_xmlrpc_sendme_content')) {
 		return new xmlrpcresp(0, 101, "Permissions denied user $username cannot send pages to this site");
 	}
 	// Store the page in the wiki_received_pages_table
@@ -110,8 +110,8 @@ function sendArticle($params) {
 	if (!$gBitUser->validate($username, $password, '', '')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
-	// Verify if the user has bit_p_sendme_pages
-	if (!$gBitUser->user_has_permission($username, 'bit_p_sendme_articles')) {
+	// Verify if the user has p_xmlrpc_sendme_content
+	if (!$gBitUser->user_has_permission($username, 'p_articles_sendme')) {
 		return new xmlrpcresp(0, 101, "Permissions denied user $username cannot send articles to this site");
 	}
 	// Store the page in the wiki_received_pages_table

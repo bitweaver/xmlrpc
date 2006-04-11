@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.5 2006/02/09 14:52:47 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.6 2006/04/11 13:12:59 squareing Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -30,7 +30,7 @@ $s=new xmlrpc_server( $map );
 function check_individual($user,$blogid,$perm_name) {
 	global $gBitUser;
 	// If the user is admin he can do everything
-	if($gBitUser->user_has_permission($user,'bit_p_blog_admin')) return true;
+	if($gBitUser->user_has_permission($user,'p_blogs_admin')) return true;
 	// If no individual permissions for the object then ok
 	if(!$gBitUser->object_has_one_permission($blogid,'blog')) return true;
 	// If the object has individual permissions then check
@@ -78,12 +78,12 @@ function newPost($params) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
 	// Get individual permissions for this weblog if they exist
-	if(!check_individual($username,$blogid,'bit_p_blog_post') ) {
+	if(!check_individual($username,$blogid,'p_blogs_post') ) {
 		return new xmlrpcresp(0, 101, "User is not allowed to post to this weblog due to individual restrictions for this weblog");
 	}
 	// If the blog is not public then check if the user is the owner
-	if(!$gBitUser->user_has_permission($username,'bit_p_blog_admin')) {
-		if(!$gBitUser->user_has_permission($username,'bit_p_blog_post')) {
+	if(!$gBitUser->user_has_permission($username,'p_blogs_admin')) {
+		if(!$gBitUser->user_has_permission($username,'p_blogs_post')) {
 			return new xmlrpcresp(0, 101, "User is not allowed to post");
 		}
 		$blog_info = $gBitSystem->get_blog($blogid);
@@ -116,17 +116,17 @@ function editPost($params) {
 	if(!$gBitUser->validate($username,$password,'','')) {
 	return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
-	if(!check_individual($username,$blogid,'bit_p_blog_post') ) {
+	if(!check_individual($username,$blogid,'p_blogs_post') ) {
 	return new xmlrpcresp(0, 101, "User is not allowed to post to this weblog due to individual restrictions for this weblog therefor the user cannot edit a post");
 	}
-	if(!$gBitUser->user_has_permission($username,'bit_p_blog_post')) {
+	if(!$gBitUser->user_has_permission($username,'p_blogs_post')) {
 	return new xmlrpcresp(0, 101, "User is not allowed to post");
 	}
 	// Now get the post information
 	$blogPost = new BitBlogPost( $postid );
 	if( $blogPost->load() ) {
 		if($blogPost->mInfo['user']!=$username) {
-			if(!$gBitUser->user_has_permission($username,'bit_p_blog_admin')) {
+			if(!$gBitUser->user_has_permission($username,'p_blogs_admin')) {
 				return new xmlrpcresp(0, 101, "Permission denied to edit that post since the post does not belong to the user");
 			}
 		}
@@ -153,7 +153,7 @@ function deletePost($params) {
 	$blogPost = new BitBlogPost( $postid );
 	if( $blogPost->load() ) {
 		if($blogPost->mInfo['user']!=$username) {
-			if(!$gBitUser->user_has_permission($username,'bit_p_blog_admin')) {
+			if(!$gBitUser->user_has_permission($username,'p_blogs_admin')) {
 				return new xmlrpcresp(0, 101, "Permission denied to edit that post");
 			}
 		}
@@ -177,13 +177,13 @@ function getPost($params) {
 	if(!$gBitUser->validate($username,$password,'','')) {
 		return new xmlrpcresp(0, 101, "Invalid username or password");
 	}
-	if(!check_individual($username,$blogid,'bit_p_blog_post') ) {
+	if(!check_individual($username,$blogid,'p_blogs_post') ) {
 		return new xmlrpcresp(0, 101, "User is not allowed to post to this weblog due to individual restrictions for this weblog");
 	}
-	if(!$gBitUser->user_has_permission($username,'bit_p_blog_post')) {
+	if(!$gBitUser->user_has_permission($username,'p_blogs_post')) {
 		return new xmlrpcresp(0, 101, "User is not allowed to post");
 	}
-	if(!$gBitUser->user_has_permission($username,'bit_p_read_blog')) {
+	if(!$gBitUser->user_has_permission($username,'p_blogs_view')) {
 		return new xmlrpcresp(0, 101, "Permission denied to read this blog");
 	}
 	// Now get the post information
@@ -216,10 +216,10 @@ function getRecentPosts($params) {
   if(!$gBitUser->validate($username,$password,'','')) {
     return new xmlrpcresp(0, 101, "Invalid username or password");
   }
-  if(!check_individual($username,$blogid,'bit_p_blog_post') ) {
+  if(!check_individual($username,$blogid,'p_blogs_post') ) {
     return new xmlrpcresp(0, 101, "User is not allowed to post to this weblog due to individual restrictions for this weblog therefore the user cannot edit a post");
   }
-  if(!$gBitUser->user_has_permission($username,'bit_p_blog_post')) {
+  if(!$gBitUser->user_has_permission($username,'p_blogs_post')) {
     return new xmlrpcresp(0, 101, "User is not allowed to post");
   }
   // Now get the post information
