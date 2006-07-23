@@ -4,6 +4,7 @@ global $gBitSystem;
 $registerHash = array(
 	'package_name' => 'xmlrpc',
 	'package_path' => dirname( __FILE__ ).'/',
+    'required_package'=> TRUE,
 );
 $gBitSystem->registerPackage( $registerHash );
 
