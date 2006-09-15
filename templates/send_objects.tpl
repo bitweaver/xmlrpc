@@ -4,13 +4,13 @@
 
 {if $msg}
 <div class="admin box">
-<div class="boxtitle">{tr}Transmission results{/tr}</div>
+<div>{tr}Transmission results{/tr}</div>
 <div class="boxcontent">{$msg}</div>
 </div>
 {/if}
 <br />
 <div class="admin box">
-<div class="boxtitle">{tr}Send objects to this site{/tr}</div>
+<div>{tr}Send objects to this site{/tr}</div>
 <div class="boxcontent">
 <form method="post" action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php">
 <input type="hidden" name="sendpages" value="{$form_sendpages|escape}" />
@@ -29,7 +29,7 @@
 <br />
 
 <div class="admin box">
-<div class="boxtitle">{tr}Filter{/tr}</div>
+<div>{tr}Filter{/tr}</div>
 <div class="boxcontent">
 <form action="{$smarty.const.XMLRPC_PKG_URL}send_objects.php" method="post">
 <input type="hidden" name="sendarticles" value="{$form_sendarticles|escape}" />
@@ -42,7 +42,7 @@
 
 {if $gBitUser->hasPermission( 'p_xmlrpc_send_content' ) && $gBitSystem->isPackageActive( 'wiki')}
 <div class="admin box">
-<div class="boxtitle">{tr}Send Wiki Pages{/tr}</div>
+<div>{tr}Send Wiki Pages{/tr}</div>
 <div class="boxcontent">
 <div class="admin box">
 <b>{tr}Pages{/tr}</b>: 
@@ -75,7 +75,7 @@
 
 {if $gBitUser->hasPermission( 'p_articles_send' ) && $gBitSystem->isPackageActive( 'articles')}
 <div class="admin box">
-<div class="boxtitle">{tr}Send Articles{/tr}</div>
+<div>{tr}Send Articles{/tr}</div>
 <div class="boxcontent">
 <div class="admin box">
 <b>{tr}Articles{/tr}</b>:
