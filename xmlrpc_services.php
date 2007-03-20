@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.7 2006/04/11 13:12:59 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc_services.php,v 1.8 2007/03/20 17:26:47 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: xmlrpc_services.php,v 1.7 2006/04/11 13:12:59 squareing Exp $
+ * $Id: xmlrpc_services.php,v 1.8 2007/03/20 17:26:47 spiderr Exp $
  * @package xmlrpc
  * @subpackage function_services
  */
@@ -37,25 +37,6 @@ $map = array(
 	"blogger.getUsersBlogs" => array("function" => "getUserBlogs")
 );
 $s = new xmlrpc_server($map);
-/**
- * @ignore
- */
-function check_individual($user, $blogid, $perm_name) {
-	global $gBitUser;
-	// If the user is admin he can do everything
-	if ($gBitUser->user_has_permission($user, 'p_blogs_admin'))
-		return true;
-	// If no individual permissions for the object then ok
-	if (!$gBitUser->object_has_one_permission($blogid, 'blog'))
-		return true;
-	// If the object has individual permissions then check
-	// Now get all the permissions that are set for this type of permissions 'image gallery'
-	if ($gBitUser->object_has_permission($user, $blog_id, 'blog', $perm_name)) {
-		return true;
-	} else {
-		return false;
-	}
-}
 /**
  * Validates the user and returns user information
  * @ignore

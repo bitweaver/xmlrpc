@@ -25,9 +25,9 @@ if($gBitSystem->isPackageActive( 'xmlrpc' ) ) {
 			return true;
 		} else {
 			return false;
-*/
-			return true;
 		}
+*/
+		return true;
 	}
 }
 
