@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.6 2006/04/11 13:12:59 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.7 2007/03/20 17:26:47 spiderr Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -27,20 +27,6 @@ $map = array (
 	"blogger.getUsersBlogs" => array( "function" => "getUserBlogs")
 );
 $s=new xmlrpc_server( $map );
-function check_individual($user,$blogid,$perm_name) {
-	global $gBitUser;
-	// If the user is admin he can do everything
-	if($gBitUser->user_has_permission($user,'p_blogs_admin')) return true;
-	// If no individual permissions for the object then ok
-	if(!$gBitUser->object_has_one_permission($blogid,'blog')) return true;
-	// If the object has individual permissions then check
-	// Now get all the permissions that are set for this type of permissions 'image gallery'
-	if($gBitUser->object_has_permission($user,$blog_id,'blog',$perm_name)) {
-		return true;
-	} else {
-		return false;
-	}
-}
 /* Validates the user and returns user information */
 function getUserInfo($params) {
 	global $gBitSystem,$gBitUser;
