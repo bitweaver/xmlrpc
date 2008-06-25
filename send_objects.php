@@ -1,6 +1,6 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.9 2007/06/02 12:08:52 squareing Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/send_objects.php,v 1.10 2008/06/25 22:21:30 spiderr Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
@@ -8,7 +8,7 @@
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
  * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
  *
- * $Id: send_objects.php,v 1.9 2007/06/02 12:08:52 squareing Exp $
+ * $Id: send_objects.php,v 1.10 2008/06/25 22:21:30 spiderr Exp $
  * @package xmlrpc
  * @subpackage functions
  */
@@ -31,7 +31,7 @@ if (!$gBitSystem->isFeatureActive( 'feature_comm' )) {
 }
 if (!$gBitUser->hasPermission( 'p_xmlrpc_send_content' ) && !$gBitUser->hasPermission( 'p_articles_send' )) {
 	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
-	$gBitSystem->display( 'error.tpl' );
+	$gBitSystem->display( 'error.tpl' , NULL, array( 'display_mode' => 'display' ));
 	die;
 }
 if (!isset($_REQUEST["username"])) {
@@ -184,5 +184,5 @@ if ($gBitSystem->isPackageActive( 'articles' )) {
 }
 
 // Display the template
-$gBitSystem->display( 'bitpackage:xmlrpc/send_objects.tpl');
+$gBitSystem->display( 'bitpackage:xmlrpc/send_objects.tpl', NULL, array( 'display_mode' => 'display' ));
 ?>
