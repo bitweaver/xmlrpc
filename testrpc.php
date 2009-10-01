@@ -1,14 +1,14 @@
 <?php
 /**
- * $Header: /cvsroot/bitweaver/_bit_xmlrpc/testrpc.php,v 1.3 2005/10/12 15:14:13 spiderr Exp $
+ * $Header: /cvsroot/bitweaver/_bit_xmlrpc/testrpc.php,v 1.4 2009/10/01 13:45:55 wjames5 Exp $
  *
  * Copyright (c) 2004 bitweaver.org
  * Copyright (c) 2003 tikwiki.org
  * Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details
  *
- * $Id: testrpc.php,v 1.3 2005/10/12 15:14:13 spiderr Exp $
+ * $Id: testrpc.php,v 1.4 2009/10/01 13:45:55 wjames5 Exp $
  * @package xmlrpc
  * @subpackage functions
  */
