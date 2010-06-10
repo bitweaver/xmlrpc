@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_xmlrpc/templates/admin_xmlrpc.tpl,v 1.3 2006/03/01 21:12:32 spiderr Exp $ *}
+{* $Header$ *}
 {strip}
 {form legend="XML RPC Features"}
 	<input type="hidden" name="page" value="{$page}" />

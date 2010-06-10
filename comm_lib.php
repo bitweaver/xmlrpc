@@ -3,7 +3,7 @@
  * Communications Library
  *
  * @package kernel
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/comm_lib.php,v 1.4 2007/01/06 09:46:28 squareing Exp $
+ * @version $Header$
  */
 
 /**

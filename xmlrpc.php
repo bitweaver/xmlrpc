@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_xmlrpc/xmlrpc.php,v 1.8 2010/02/08 21:27:27 wjames5 Exp $
+ * @version $Header$
  * @package xmlrpc
  * @subpackage functions
  */
